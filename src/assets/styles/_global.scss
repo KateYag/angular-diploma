@@ -1,0 +1,36 @@
+@import "../../assets/styles/variables";
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+.button {
+  border-radius: 5px;
+  padding: 10px 0;
+  background: #709fdc;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: center;
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+}
+.input {
+  border: 2px solid #709fdc;
+  border-radius: 3px;
+  padding: 17px 20px;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #071739;
+  outline:none;
+}
