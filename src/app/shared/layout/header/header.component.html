@@ -38,8 +38,15 @@
           </svg>
         </div>
         <div class="header-content-action-text">
-          <a routerLink="/login">Войти</a>
+          <a routerLink="/login" *ngIf="!isLogged">Войти</a>
+          <a *ngIf="isLogged" [matMenuTriggerFor]="menu">Привет, {{userName}}</a>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <span (click)="logout()">Выйти</span>
+            </button>
+          </mat-menu>
         </div>
+
       </div>
     </div>
   </div>
