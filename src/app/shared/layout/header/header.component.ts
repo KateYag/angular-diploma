@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     const authSub = this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
 
@@ -33,7 +34,7 @@ export class HeaderComponent implements OnInit {
         const userSub = this.userService.getUserInfo().subscribe({
           next: (response: UserInfoType | DefaultResponseType) => {
             console.log('Response from API:', response);
-            if ((response as UserInfoType).id) {
+            if (response && (response as UserInfoType).id) {
               this.userName = (response as UserInfoType).name;
               console.log('User Name:', this.userName);
             } else {

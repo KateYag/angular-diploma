@@ -1,0 +1,59 @@
+<div class="detail" *ngIf="article">
+  <div class="container">
+    <div class="detail-head">
+      <div class="detail-info">
+        <div class="detail-info-title">
+          {{article.title}}
+        </div>
+        <div class="detail-info-description">
+          {{article.description}}
+        </div>
+      </div>
+      <div class="detail-head-image">
+        <img src="/assets/images/detail-article/{{article.image}}" alt="">
+      </div>
+
+    </div>
+    <div class="detail-body">
+      <div class="detail-content" [innerHTML]="article.text"></div>
+      <div class="detail-body-extra">
+        <div class="detail-body-extra-title">
+          Читайте также:
+        </div>
+        <div class="detail-body-extra-card">
+          <article-card [article]="relatedArticle" *ngFor="let relatedArticle  of relatedArticles"></article-card>
+
+        </div>
+      </div>
+    </div>
+
+<!--    <div class="comments-section">-->
+<!--      <div class="comments-title">-->
+<!--        Комментарии к статье-->
+<!--      </div>-->
+
+<!--      <div *ngIf="comments.length > 0; else noComments">-->
+<!--        <div class="comment" *ngFor="let comment of displayedComments">-->
+<!--          <div class="comment-author">{{ comment.user.name }}</div>-->
+<!--          <div class="comment-text">{{ comment.text }}</div>-->
+<!--        </div>-->
+
+<!--        <div class="comments-loader" *ngIf="loadingMoreComments">-->
+<!--          &lt;!&ndash; Лоадер отображается вместо кнопки во время загрузки &ndash;&gt;-->
+<!--          <div class="loader">Загрузка...</div>-->
+<!--        </div>-->
+
+<!--        <button *ngIf="!loadingMoreComments && hasMoreComments" class="load-more-button" (click)="loadMoreComments()">-->
+<!--          Загрузить еще комментарии-->
+<!--        </button>-->
+<!--      </div>-->
+
+<!--      <ng-template #noComments>-->
+<!--        <div class="no-comments">-->
+<!--          Комментариев пока нет-->
+<!--        </div>-->
+<!--      </ng-template>-->
+<!--    </div>-->
+
+  </div>
+</div>

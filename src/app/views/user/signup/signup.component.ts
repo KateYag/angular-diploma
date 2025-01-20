@@ -67,4 +67,9 @@ export class SignupComponent implements OnInit {
       this.subscription.unsubscribe();
     }
   }
+
+
+  openInNewTab(url: string): void {
+    window.open(url, '_blank');
+  }
 }

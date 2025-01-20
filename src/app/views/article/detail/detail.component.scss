@@ -1,0 +1,75 @@
+.detail {
+  padding: 80px 0 120px 0;
+  .container {
+    .detail-head {
+      padding: 60px 0;
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      .detail-info {
+        font-family: "Lora", sans-serif;
+        font-weight: 400;
+        color: #709fdc;
+        max-width: 607px;
+        .detail-info-title {
+          font-size: 38px;
+          line-height: 130%;
+          margin-bottom: 40px;
+        }
+        .detail-info-description {
+          font-size: 20px;
+          line-height: 130%;
+
+        }
+      }
+      .detail-head-image {
+        img {
+          max-width: 527px;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    .detail-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      .detail-content {
+        max-width: 818px;
+        font-family: "Montserrat", sans-serif;
+        ::ng-deep {
+          h3 {
+            font-weight: 500;
+            font-size: 20px;
+            color: #709fdc;
+          }
+          p {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 130%;
+            color: #071739;
+          }
+        }
+
+      }
+      .detail-body-extra {
+
+        .detail-body-extra-title {
+          font-family: "Lora", sans-serif;
+          font-weight: 400;
+          font-size: 26px;
+          color: #709fdc;
+          margin-bottom: 20px;
+        }
+
+        .detail-body-extra-card {
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+
+        }
+      }
+
+    }
+  }
+}

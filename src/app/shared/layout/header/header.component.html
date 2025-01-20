@@ -9,19 +9,19 @@
         <nav>
           <ul>
             <li>
-              <a>Услуги</a>
+              <a [routerLink]="['/']" fragment="services">Услуги</a>
             </li>
             <li>
-              <a>О нас</a>
+              <a [routerLink]="['/']" fragment="about">О нас</a>
             </li>
             <li>
-              <a>Статьи</a>
+              <a  [routerLink]="['/']" fragment="articles">Статьи</a>
             </li>
             <li>
-              <a>Отзывы</a>
+              <a [routerLink]="['/']" fragment="reviews">Отзывы</a>
             </li>
             <li>
-              <a>Контакты</a>
+              <a [routerLink]="['/']" fragment="contacts">Контакты</a>
             </li>
           </ul>
         </nav>
@@ -39,7 +39,7 @@
         </div>
         <div class="header-content-action-text">
           <a routerLink="/login" *ngIf="!isLogged">Войти</a>
-          <a *ngIf="isLogged" [matMenuTriggerFor]="menu">Привет, {{userName}}</a>
+          <a *ngIf="isLogged && userName" [matMenuTriggerFor]="menu">Привет, {{userName}}</a>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
               <span (click)="logout()">Выйти</span>

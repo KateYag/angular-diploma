@@ -1,0 +1,104 @@
+.blog {
+  padding-bottom: 120px;
+  .container {
+    .blog-title {
+      margin-top: 80px;
+      margin-bottom: 40px;
+      font-family: "Lora", sans-serif;
+      font-weight: 400;
+      font-size: 38px;
+      color: #709fdc;
+    }
+    .blog-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      .blog-applied-filters {
+        display: flex;
+        flex-wrap: wrap;
+
+        .blog-applied-filter {
+          border: 2px solid #709fdc;
+          border-radius: 5px;
+          padding: 8px 20px;
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
+          margin-bottom: 20px;
+          a {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            margin-left: 8px;
+          }
+        }
+      }
+      .blog-sorting {
+        cursor: pointer;
+        width: 148px;
+        box-sizing: border-box;
+        position: relative;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+          .blog-sorting-head {
+            display: flex;
+            align-items: center;
+            padding: 12px 0 12px  23px;
+            justify-content: space-between;
+
+            span {
+              margin-right: 8px;
+            }
+          }
+            .blog-sorting-body {
+              position: absolute;
+              width: 100%;
+              box-sizing: border-box;
+              z-index: 11;
+              display: none;
+              padding: 12px 23px;
+              border: 1.50px solid #b9d5fd;
+              border-radius: 0 0 5px 5px;
+              background: white;
+              color: #bebebe;
+              .blog-sorting-item {
+                margin-bottom: 14px;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                &:last-child {
+                  margin-bottom: 0;
+
+                }
+                &.active {
+                  color: #071739;
+                }
+              }
+            }
+
+        &.open {
+            width: 257px;
+            .blog-sorting-head {
+              background: #b9d5fd;
+              border-radius: 5px 5px 0 0;
+              padding-right:23px ;
+            }
+            .blog-sorting-body {
+              display: block;
+            }
+
+
+        }
+
+      }
+    }
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+
+    }
+  }
+}
