@@ -14,25 +14,27 @@ export class UserService {
   constructor(private http: HttpClient,
               private authService: AuthService) { }
 
-  getUserInfo(): Observable<UserInfoType | DefaultResponseType> {
-    const accessToken = this.authService.getTokens().accessToken;
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
-    return this.http.get<UserInfoType | DefaultResponseType>(environment.api + 'users', {headers})
-      .pipe(
-        tap(response => {
-          console.log('Received user data:', response);
-        }),
-        catchError((error) => {
-          console.error('Error fetching user data', error);
-
-          return throwError(() => new Error('Ошибка получения данных пользователя.'));
-
-        })
-      );
-  }
+  // getUserInfo(): Observable<UserInfoType | DefaultResponseType> {
+  //   const tokens = this.authService.getTokens();
+  //   const accessToken = tokens.accessToken;
+  //
+  //   if (!accessToken) {
+  //     console.error('Access token is missing. User is not authenticated.');
+  //     return throwError(() => new Error('Access token is missing'));
+  //   }
+  //   const headers = new HttpHeaders({
+  //     Authorization: `Bearer ${accessToken}`
+  //   });
+  //   console.log('Headers:', headers);
+  //
+  //   return this.http.get<UserInfoType | DefaultResponseType>(environment.api + 'users', { headers })
+  //     .pipe(
+  //     tap((response) => console.log('User info fetched:', response)),
+  //     catchError((error) => {
+  //       console.error('Error fetching user info:', error);
+  //       return throwError(() => error);
+  //     })
+  //   );
+  //
+  // }
 }

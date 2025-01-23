@@ -23,6 +23,8 @@ export class BlogComponent implements OnInit {
     urlParam: string
   }[] = [];
 
+  pages: number[] = [];
+
 
   constructor(private articleService: ArticleService,
               private route: ActivatedRoute,
@@ -60,9 +62,13 @@ export class BlogComponent implements OnInit {
     });
 
     this.articleService.getArticles()
-      .subscribe((data: ArticleType[]) => {
-        this.articles = data;
+      .subscribe(data => {
+        this.articles = data.items;
         this.applyFilters();
+        this.pages = [];
+        for (let i = 1; i < data.pages; i++) {
+          this.pages.push(i);
+        }
 
       });
     this.http.get<CategoryType[]>('http://localhost:3000/api/categories')
@@ -173,6 +179,29 @@ export class BlogComponent implements OnInit {
       this.applyFilters();
     }
   }
+  openPage(page: number) {
+    this.activeParams.page = page;
+    this.router.navigate(['/blog'], {
+      queryParams: this.activeParams
+    });
+  }
 
+  openPrevPage(){
+    if (this.activeParams.page && this.activeParams.page > 1) {
+      this.activeParams.page--;
+      this.router.navigate(['/blog'], {
+        queryParams: this.activeParams
+      });
+    }
+
+  }
+  openNextPage(){
+    if (this.activeParams.page && this.activeParams.page < this.pages.length) {
+      this.activeParams.page++;
+      this.router.navigate(['/blog'], {
+        queryParams: this.activeParams
+      });
+    }
+  }
 
 }

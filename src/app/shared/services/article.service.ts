@@ -15,13 +15,17 @@ export class ArticleService {
   constructor(private http: HttpClient) { }
 
   getTopArticles(): Observable<ArticleType[]> {
-    return this.http.get<ArticleType[]>(environment.api + 'articles/top');
+    return this.http.get< ArticleType[]>(environment.api + 'articles/top');
   }
-  getArticles(): Observable<ArticleType[]> {
+  getArticles(): Observable<{ count: number, pages: number, items: ArticleType[] }> {
     return this.http.get<{ count: number, pages: number, items: ArticleType[] }>(environment.api + 'articles')
-      .pipe(
-        map(response => response.items)
-      );
+      // .pipe(
+      //   map(response => ({
+      //     count: response.count,
+      //     pages: response.pages,
+      //     items: response.items
+      //   }))
+      // );
   }
 
   getRelatedArticles(url: string): Observable<ArticleType[]> {

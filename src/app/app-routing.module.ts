@@ -4,6 +4,7 @@ import {LayoutComponent} from "./shared/layout/layout.component";
 import {MainComponent} from "./views/main/main.component";
 import {TermsComponent} from "./shared/components/terms/terms.component";
 import {BlogComponent} from "./views/article/blog/blog.component";
+import {DetailComponent} from "./views/article/detail/detail.component";
 
 
 
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       {path: '', component: MainComponent},
       {path: '', loadChildren: () => import('./views/user/user.module').then(m => m.UserModule)},
-      {path: 'articles', loadChildren: () => import('./views/article/article.module').then(m => m.ArticleModule)},
+      {path: '', loadChildren: () => import('./views/article/article.module').then(m => m.ArticleModule)},
+      {path: 'articles/:url', component: DetailComponent},
       {path: 'terms', component: TermsComponent },
       {path: 'blog', component: BlogComponent },
 

@@ -50,6 +50,21 @@ export class LoginComponent implements OnInit {
              this.authService.setTokens(loginResponse.accessToken, loginResponse.refreshToken);
              this.authService.userId = loginResponse.userId;
              this._snackBar.open('Вы успешно авторизовались');
+
+
+             this.authService.getUserInfo().subscribe({
+               next: (user) => {
+                 console.log('Данные пользователя:', user);
+                 this.router.navigate(['/']);
+               },
+               error: (err: HttpErrorResponse) => {
+                 this._snackBar.open('Ошибка загрузки данных пользователя');
+               }
+             });
+
+
+
+
              this.router.navigate(['/']);
            },
            error: (errorResponse: HttpErrorResponse) => {

@@ -97,8 +97,52 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 20px;
+      gap: 24px;
 
+
+
+    }
+
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 60px;
+      .pagination-arrow {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.disabled {
+          opacity: 0.5;
+        }
+      }
+      .pagination-pages {
+        margin: 0 40px 0 40px;
+        display: flex;
+        align-items: center;
+
+        a.pagination-page {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          margin-right: 20px;
+          cursor: pointer;
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 20px;
+          color: #071739;
+          &.active {
+            color: #b9d5fd;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
     }
   }
 }

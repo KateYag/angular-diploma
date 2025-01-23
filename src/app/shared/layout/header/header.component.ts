@@ -16,7 +16,7 @@ import {Subscription} from "rxjs";
 export class HeaderComponent implements OnInit {
 
   isLogged: boolean = false;
-  userName: string | null = null;
+  name: string | null = null;
   private subscriptions: Subscription = new Subscription();
   constructor(private authService: AuthService,
               private userService: UserService,
@@ -30,29 +30,27 @@ export class HeaderComponent implements OnInit {
     const authSub = this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
 
-      if (this.isLogged) {
-        const userSub = this.userService.getUserInfo().subscribe({
-          next: (response: UserInfoType | DefaultResponseType) => {
-            console.log('Response from API:', response);
-            if (response && (response as UserInfoType).id) {
-              this.userName = (response as UserInfoType).name;
-              console.log('User Name:', this.userName);
-            } else {
-              this.userName = null;
-              console.log('User Info is invalid or not found');
-            }
-          },
-          error: () => {
-            this.userName = null;
-            console.log('Error occurred while fetching user info');
-          }
-        });
-        this.subscriptions.add(userSub);
-      } else {
-        this.userName = null;
-      }
+      // if (this.isLogged) {
+      //   const userSub = this.userService.getUserInfo().subscribe({
+      //     next: (response: UserInfoType | DefaultResponseType) => {
+      //       if ('name' in response) {
+      //         this.name = response.name;
+      //         console.log('User Name:', this.name);
+      //       } else {
+      //         this.name = null;
+      //         console.log('Invalid response:', response);
+      //       }
+      //     },
+      //     error: (error) => {
+      //       this.name = null;
+      //       console.error('Error while fetching user info:', error);          }
+      //   });
+      //   this.subscriptions.add(userSub);
+      // } else {
+      //   this.name = null;
+      // }
     });
-    this.subscriptions.add(authSub);
+    //this.subscriptions.add(authSub);
   }
 
 

@@ -39,7 +39,7 @@
         </div>
         <div class="header-content-action-text">
           <a routerLink="/login" *ngIf="!isLogged">Войти</a>
-          <a *ngIf="isLogged && userName" [matMenuTriggerFor]="menu">Привет, {{userName}}</a>
+          <a *ngIf="isLogged" [matMenuTriggerFor]="menu">Привет, {{name}}</a>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
               <span (click)="logout()">Выйти</span>
