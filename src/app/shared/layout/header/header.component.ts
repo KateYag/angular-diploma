@@ -6,6 +6,7 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -30,28 +31,31 @@ export class HeaderComponent implements OnInit {
     const authSub = this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
 
-      // if (this.isLogged) {
-      //   const userSub = this.userService.getUserInfo().subscribe({
-      //     next: (response: UserInfoType | DefaultResponseType) => {
-      //       if ('name' in response) {
-      //         this.name = response.name;
-      //         console.log('User Name:', this.name);
-      //       } else {
-      //         this.name = null;
-      //         console.log('Invalid response:', response);
-      //       }
-      //     },
-      //     error: (error) => {
-      //       this.name = null;
-      //       console.error('Error while fetching user info:', error);          }
-      //   });
-      //   this.subscriptions.add(userSub);
-      // } else {
-      //   this.name = null;
-      // }
+      if (this.isLogged) {
+        this.loadUserInfo();
+      }
     });
-    //this.subscriptions.add(authSub);
+    this.subscriptions.add(authSub);
   }
+
+
+  loadUserInfo(): void {
+    const userSub = this.authService.getUserInfo().subscribe({
+      next: (response: UserInfoType | DefaultResponseType) => {
+        if ('name' in response) {
+          this.name = response.name;
+        } else {
+          this.name = null;
+        }
+      },
+      error: (error) => {
+        this.name = null;
+        console.error('Error while fetching user info:', error);
+      }
+    });
+    this.subscriptions.add(userSub);
+  }
+
 
 
   logout(): void {

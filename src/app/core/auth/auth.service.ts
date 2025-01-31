@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject, tap, throwError} from "rxjs";
+import {catchError, Observable, Subject, tap, throwError} from "rxjs";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {HttpClient} from "@angular/common/http";
@@ -95,8 +95,29 @@ export class AuthService {
     }
   }
 
+  // getUserInfo(): Observable<UserInfoType> {
+  //   return this.http.get<UserInfoType>(environment.api + 'users')
+  //     .pipe(tap(user => console.log('Полученные данные пользователя:', user)));
+  // }
   getUserInfo(): Observable<UserInfoType> {
-    return this.http.get<UserInfoType>(environment.api + 'users')
+    const tokens = this.getTokens();
+
+
+    if (tokens && tokens.accessToken) {
+      console.log('Access Token:', tokens.accessToken);
+      return this.http.get<UserInfoType>(environment.api + 'users', {
+        headers: {
+          'x-auth': tokens.accessToken // Передаем accessToken в заголовке
+        }
+      }).pipe(
+        tap(user => console.log('Полученные данные пользователя:', user)),
+        catchError((error) => {
+          console.error('Ошибка при получении данных пользователя', error);
+          return throwError(() => new Error('Ошибка при получении данных пользователя'));
+        })
+      );
+    }
+    return throwError(() => new Error('Не найден accessToken'));
   }
 
 }

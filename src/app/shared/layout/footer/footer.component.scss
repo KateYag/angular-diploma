@@ -26,6 +26,9 @@ footer.footer {
               color: #071739;
               cursor: pointer;
               text-decoration: none;
+              a {
+                text-decoration: none;
+              }
             }
           }
         }
@@ -49,6 +52,10 @@ footer.footer {
               color: #071739;
               line-height: 130%;
               text-decoration: none;
+              a {
+                text-decoration: none;
+                color: #071739;
+              }
               svg {
                 margin-right: 12px;
               }

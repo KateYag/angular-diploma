@@ -5,6 +5,8 @@ import { ArticleRoutingModule } from './article-routing.module';
 import {ArticleCardComponent} from "./article-card/article-card.component";
 import { DetailComponent } from './detail/detail.component';
 import {BlogComponent} from "./blog/blog.component";
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -15,7 +17,10 @@ import {BlogComponent} from "./blog/blog.component";
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ArticleRoutingModule,
+    HttpClientModule
+
 
   ],
   exports: [

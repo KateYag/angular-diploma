@@ -9,5 +9,8 @@ export type CommentType = {
         id: string,
         name: string
       };
+  isLiked?: boolean;
+  isDisliked?: boolean;
+  hasReported?: boolean;
 
 };

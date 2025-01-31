@@ -1,6 +1,25 @@
 .detail {
   padding: 80px 0 120px 0;
   .container {
+    .breadcrumb {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      display: flex;
+      a.breadcrumb-blog {
+        color: #b9d5fd;
+        text-decoration: none;
+        margin-right: 8px;
+
+      }
+      span {
+        color: #b9d5fd;
+        margin-right: 8px;
+      }
+      .breadcrumb-title {
+        color: #709fdc;
+      }
+    }
     .detail-head {
       padding: 60px 0;
       display: flex;
@@ -35,23 +54,151 @@
       justify-content: space-between;
       align-items: start;
       .detail-content {
-        max-width: 818px;
-        font-family: "Montserrat", sans-serif;
-        ::ng-deep {
-          h3 {
-            font-weight: 500;
-            font-size: 20px;
-            color: #709fdc;
+        .detail-content-article {
+          max-width: 818px;
+          font-family: "Montserrat", sans-serif;
+          ::ng-deep {
+            h3 {
+              font-weight: 500;
+              font-size: 20px;
+              color: #709fdc;
+            }
+            p {
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 130%;
+              color: #071739;
+            }
           }
-          p {
-            font-weight: 400;
+
+        }
+        .detail-actions {
+          margin: 61px 0;
+          display: flex;
+          align-items: center;
+          span {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
             font-size: 14px;
-            line-height: 130%;
-            color: #071739;
+            color: #709fdc;
+            margin-right: 20px;
+          }
+          svg {
+            margin-right: 13px;
           }
         }
+        .detail-comments {
+          .detail-comments-title {
+            font-family: "Lora", sans-serif;
+            font-weight: 400;
+            font-size: 38px;
+            color: #709fdc;
+            margin-bottom: 20px;
+          }
+          .first-text {
+            margin-bottom: 40px;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #071739;
+          }
+          .detail-comments-write {
+            textarea {
+              border: 1.50px solid #709fdc;
+              border-radius: 3px;
+              padding: 20px;
+              width: 818px;
+              height: 248px;
+              box-sizing: border-box;
+              font-family: "Montserrat", sans-serif;
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 130%;
+              color: #071739;
+            }
+            .button {
+              width: 422px;
+              margin-top: 20px;
+              margin-bottom: 60px;
+            }
+          }
+          .detail-comments-access {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #071739;
+            margin-bottom: 60px;
+            a {
+              color: #709fdc;
+              text-decoration: none;
+            }
+          }
+          .detail-comment {
+            font-family: "Montserrat", sans-serif;
+            margin-bottom: 40px;
+            .detail-comment-head {
+              display: flex;
+              align-items: center;
+              .detail-comment-info {
+                margin-left: 26px;
+                .detail-comment-info-name {
+                  font-weight: 600;
+                  font-size: 18px;
+                  color: #709fdc;
+                  margin-bottom: 10px;
+                }
+                .detail-comment-info-time {
+                  font-weight: 600;
+                  font-size: 14px;
+                  line-height: 130%;
+                  color: #bebebe;
+                }
+              }
 
+            }
+            .detail-comment-body {
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 140%;
+              color: #071739;
+              margin-top: 15px;
+            }
+            .detail-comment-actions {
+              margin-top: 39px;
+              display: flex;
+              align-items: center;
+              span {
+                font-weight: 600;
+                font-size: 14px;
+                color: #071739;
+                margin-right: 2px;
+              }
+              a {
+                svg {
+                  margin-right: 15px;
+                }
+              }
+            }
+          }
+          .detail-comments-add {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            .detail-comments-add-text {
+              font-family: "Montserrat", sans-serif;
+              font-weight: 500;
+              font-size: 20px;
+              color: #709fdc;
+              margin-right: 10px;
+              a {
+                text-decoration: none;
+                cursor: pointer;
+              }
+            }
+          }
+        }
       }
+
       .detail-body-extra {
 
         .detail-body-extra-title {
@@ -71,5 +218,6 @@
       }
 
     }
+
   }
 }

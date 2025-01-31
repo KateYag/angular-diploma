@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
        this.subscription = this.authService.login(this.loginForm.value.email, this.loginForm.value.password, !!this.loginForm.value.rememberMe)
          .subscribe({
            next: (data: LoginResponseType | DefaultResponseType) => {
+             console.log('Ответ от сервера:', data);
              let error: string | null = null;
              if ((data as DefaultResponseType).error !== undefined) {
                error = (data as DefaultResponseType).message;
@@ -52,15 +53,16 @@ export class LoginComponent implements OnInit {
              this._snackBar.open('Вы успешно авторизовались');
 
 
-             this.authService.getUserInfo().subscribe({
-               next: (user) => {
-                 console.log('Данные пользователя:', user);
-                 this.router.navigate(['/']);
-               },
-               error: (err: HttpErrorResponse) => {
-                 this._snackBar.open('Ошибка загрузки данных пользователя');
-               }
-             });
+              // this.authService.getUserInfo().subscribe({
+              //   next: (user) => {
+              //     console.log('Данные пользователя:', user);
+              //     this.router.navigate(['/']);
+              //   },
+              //   error: (err: HttpErrorResponse) => {
+              //     this._snackBar.open('Ошибка загрузки данных пользователя');
+              //   }
+              // });
+
 
 
 

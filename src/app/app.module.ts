@@ -25,6 +25,7 @@ import {ArticleModule} from "./views/article/article.module";
     FooterComponent,
     MainComponent,
 
+
   ],
   imports: [
     BrowserModule,
