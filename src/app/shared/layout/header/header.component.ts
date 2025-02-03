@@ -27,12 +27,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if ( localStorage.getItem('userName')) {
+      this.name =  localStorage.getItem('userName');
+    }
 
     const authSub = this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
 
       if (this.isLogged) {
         this.loadUserInfo();
+        localStorage.removeItem('userName');
       }
     });
     this.subscriptions.add(authSub);
@@ -44,12 +48,15 @@ export class HeaderComponent implements OnInit {
       next: (response: UserInfoType | DefaultResponseType) => {
         if ('name' in response) {
           this.name = response.name;
+          localStorage.setItem('userName', this.name);
         } else {
           this.name = null;
+          localStorage.removeItem('userName');
         }
       },
       error: (error) => {
         this.name = null;
+        localStorage.removeItem('userName');
         console.error('Error while fetching user info:', error);
       }
     });
@@ -74,6 +81,7 @@ export class HeaderComponent implements OnInit {
   doLoggout(): void {
     this.authService.removeTokens();
     this.authService.userId = null;
+    localStorage.removeItem('userName');
     this._snackBar.open('Вы вышли из системы');
     this.router.navigate(['/']);
   }

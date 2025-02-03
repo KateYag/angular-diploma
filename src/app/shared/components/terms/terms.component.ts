@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-terms',
@@ -7,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./terms.component.scss']
 })
 export class TermsComponent implements OnInit {
-
+  private queryParamsSubscription: Subscription | null = null;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -24,6 +25,10 @@ export class TermsComponent implements OnInit {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.queryParamsSubscription?.unsubscribe();
   }
 
 }

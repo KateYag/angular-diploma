@@ -3,7 +3,7 @@ import {ArticleType} from "../../../../types/article.type";
 import {CategoryType} from "../../../../types/category.type";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {filter} from "rxjs";
+import {filter, Subscription} from "rxjs";
 import {ArticleService} from "../../../shared/services/article.service";
 
 @Component({
@@ -25,6 +25,10 @@ export class BlogComponent implements OnInit {
 
   pages: number[] = [];
 
+  private queryParamsSubscription: Subscription | null = null;
+  private articlesSubscription: Subscription | null = null;
+  private categoriesSubscription: Subscription | null = null;
+
 
   constructor(private articleService: ArticleService,
               private route: ActivatedRoute,
@@ -35,29 +39,11 @@ export class BlogComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this.route.queryParams.subscribe(params => {
-    //   this.activeParams = params;
-    //   console.log(this.activeParams);
-    //   if (this.activeParams.category && Array.isArray(this.activeParams.category)) {
-    //     // Проходим по каждому параметру категории из activeParams
-    //     this.activeParams.category.forEach((url: string) => {
-    //       // Ищем соответствие в categories
-    //       const matchingCategory = this.categories.find(category => category.url === url);
-    //       if (matchingCategory && !this.appliedFilters.some(filter => filter.name === matchingCategory.name)) {
-    //         // Добавляем найденную категорию в appliedFilters
-    //         this.appliedFilters.push({
-    //           name: matchingCategory.name,
-    //           urlParam: url
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
-
     this.route.queryParams.subscribe(params => {
       this.activeParams = params;
       this.activeCategories = Array.isArray(params['category']) ? params['category'] : (params['category'] ? [params['category']] : []);
-      // Применяем фильтры после загрузки параметров
+
+      this.loadFiltersFromLocalStorage();
       this.applyFilters();
     });
 
@@ -89,26 +75,25 @@ export class BlogComponent implements OnInit {
         const articleCategory = this.categories.find(category => category.name === article.category);
         return articleCategory && this.activeCategories.includes(articleCategory.url);
     }
-      //this.activeCategories.includes(article.category)
     );
-    console.log('Filtered Articles:', this.filteredArticles);
-    // const queryParams = new URLSearchParams();
-    // this.activeCategories.forEach(category => {
-    //   queryParams.append('categories[]', category);
-    // });
-    //
-    // const apiUrl = `http://localhost:3000/api/articles?${queryParams.toString()}`;
-    // console.log('API URL:', apiUrl);
-    // this.http.get<ArticleType[]>(apiUrl).subscribe((data: ArticleType[]) => {
-    //
-    //   this.filteredArticles = data; // Присваиваем отфильтрованные статьи
-    //
-    // });
+
   }
 
   toggle(): void {
     this.open = !this.open;
   }
+
+  loadFiltersFromLocalStorage(): void {
+    const storedFilters = localStorage.getItem('appliedFilters');
+    if (storedFilters) {
+      this.appliedFilters = JSON.parse(storedFilters);
+      this.activeCategories = this.appliedFilters.map(filter => filter.urlParam);
+    }
+  }
+
+
+
+
 
   isActiveCategory(categoryUrl: string): boolean {
     return this.activeCategories.includes(categoryUrl);
@@ -166,8 +151,9 @@ export class BlogComponent implements OnInit {
         urlParam: category.url
       });
     }
+    this.saveFiltersToLocalStorage();
 
-    // Обновляем параметры URL
+    this.loadFiltersFromLocalStorage();
     this.updateUrl();
     this.applyFilters();
   }
@@ -175,9 +161,15 @@ export class BlogComponent implements OnInit {
 
     const category = this.categories.find(c => c.url === appliedFilter.urlParam);
     if (category) {
+
       this.toggleCategory(category);
       this.applyFilters();
     }
+    this.loadFiltersFromLocalStorage();
+    this.saveFiltersToLocalStorage();
+  }
+  saveFiltersToLocalStorage(): void {
+    localStorage.setItem('appliedFilters', JSON.stringify(this.appliedFilters));
   }
   openPage(page: number) {
     this.activeParams.page = page;
@@ -202,6 +194,19 @@ export class BlogComponent implements OnInit {
         queryParams: this.activeParams
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
+    if (this.articlesSubscription) {
+      this.articlesSubscription.unsubscribe();
+    }
+    if (this.categoriesSubscription) {
+      this.categoriesSubscription.unsubscribe();
+    }
+    localStorage.removeItem('appliedFilters');
   }
 
 }

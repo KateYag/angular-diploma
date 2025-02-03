@@ -19,26 +19,13 @@ export class ArticleService {
   }
   getArticles(): Observable<{ count: number, pages: number, items: ArticleType[] }> {
     return this.http.get<{ count: number, pages: number, items: ArticleType[] }>(environment.api + 'articles')
-      // .pipe(
-      //   map(response => ({
-      //     count: response.count,
-      //     pages: response.pages,
-      //     items: response.items
-      //   }))
-      // );
+
   }
 
   getRelatedArticles(url: string): Observable<ArticleType[]> {
     return this.http.get<ArticleType[]>(environment.api + 'articles/related/' + url);
   }
-  // getArticlesWithCategory(): Observable<ArticleType[]> {
-  //   return this.http.get<{ count: number, pages: number, items: ArticleType[] }>(environment.api + 'articles')
-  //     .pipe(
-  //       map((items: { count: number, pages: number, items: ArticleType[]}) => {
-  //
-  //       })
-  //     );
-  // }
+
 
   getArticle(url: string): Observable<ArticleBlogType> {
     return this.http.get<ArticleBlogType>(environment.api + 'articles/' + url);

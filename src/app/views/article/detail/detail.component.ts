@@ -3,7 +3,7 @@ import {ArticleService} from "../../../shared/services/article.service";
 import {ActivatedRoute} from "@angular/router";
 import {ArticleBlogType} from "../../../../types/article-blog.type";
 import {ArticleType} from "../../../../types/article.type";
-import {forkJoin} from "rxjs";
+import {forkJoin, Subscription} from "rxjs";
 import {CommentType} from "../../../../types/comment.type";
 import {AuthService} from "../../../core/auth/auth.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
@@ -31,6 +31,7 @@ export class DetailComponent implements OnInit {
   commentId: string = '';
   isDisliked = false;
   hasReported = false;
+  private subscriptions: Subscription[] = [];
 
 
   constructor(private articleService: ArticleService,
@@ -44,7 +45,7 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
 
     this.isLoggedIn = this.authService.getIsLoggedIn();
-    this.activatedRoute.params.subscribe(params => {
+    const routeSub = this.activatedRoute.params.subscribe(params => {
 
       forkJoin([
         this.articleService.getArticle(params['url']),
@@ -57,13 +58,13 @@ export class DetailComponent implements OnInit {
         //this.loadUserReactions(this.commentId);
       });
     });
-
+    this.subscriptions.push(routeSub);
 
   }
 
   loadComments(articleId: string): void {
     this.isLoading = true;
-    this.commentService.getComments(articleId, this.offset).subscribe({
+    const commentSub = this.commentService.getComments(articleId, this.offset).subscribe({
       next: (data) => {
         if (this.offset === 0) {
           this.comments = data.comments;
@@ -81,6 +82,8 @@ export class DetailComponent implements OnInit {
         this.isLoading = false;
       }
     });
+    this.subscriptions.push(commentSub);
+
   }
 
   loadMoreComments(): void {
@@ -95,7 +98,7 @@ export class DetailComponent implements OnInit {
     if (!this.commentText.trim()) {
       return;
     }
-    this.commentService.addComment(this.articleId, this.commentText).subscribe({
+    const addCommentSub = this.commentService.addComment(this.articleId, this.commentText).subscribe({
       next: (data) => {
         this.commentText = '';
         this.loadComments(this.articleId);
@@ -106,13 +109,14 @@ export class DetailComponent implements OnInit {
 
       }
     });
+    this.subscriptions.push(addCommentSub);
   }
 
 
   applyAction(action: 'like' | 'dislike' , commentId: string): void {
     const comment = this.comments.find(c => c.id === commentId);
     if (!comment) return;
-    this.commentService.applyAction(commentId, action).subscribe({
+    const actionSub = this.commentService.applyAction(commentId, action).subscribe({
       next: (response) => {
         if (action === 'like') {
 
@@ -152,6 +156,7 @@ export class DetailComponent implements OnInit {
         this._snackBar.open('Ошибка! Попробуйте снова.');
       },
     });
+    this.subscriptions.push(actionSub);
   }
 
 
@@ -164,7 +169,7 @@ export class DetailComponent implements OnInit {
       return;
     }
 
-    this.commentService.reportComment(commentId).subscribe({
+    const reportSub = this.commentService.reportComment(commentId).subscribe({
       next: () => {
         comment.hasReported = true;
         this._snackBar.open('Жалоба отправлена!');
@@ -175,12 +180,13 @@ export class DetailComponent implements OnInit {
         this._snackBar.open('Жалоба уже отправлена!');
       },
     });
+    this.subscriptions.push(reportSub);
   }
 
 
 
   loadUserReactions(): void {
-    this.commentService.getUserReactions(this.articleId).subscribe({
+    const userReactionsSub =  this.commentService.getUserReactions(this.articleId).subscribe({
       next: (reactions) => {
         this.comments.forEach(comment => {
           const reaction = reactions.find(r => r.commentId === comment.id);
@@ -194,10 +200,13 @@ export class DetailComponent implements OnInit {
         console.error('Ошибка получения реакций пользователя:', err);
       },
     });
+    this.subscriptions.push(userReactionsSub);
   }
 
 
-
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 
 
 

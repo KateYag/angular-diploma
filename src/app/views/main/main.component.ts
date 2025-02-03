@@ -5,6 +5,7 @@ import {ArticleService} from "../../shared/services/article.service";
 import {ArticleType} from "../../../types/article.type";
 import {HttpClient} from "@angular/common/http";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-main',
@@ -133,6 +134,8 @@ export class MainComponent implements OnInit {
   ]
 
   articles: ArticleType[] = [];
+  private subscriptions: Subscription[] = [];
+
 
   constructor(private router: Router,
               private articleService: ArticleService,
@@ -145,10 +148,11 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.articleService.getTopArticles()
+    const articlesSubscription = this.articleService.getTopArticles()
       .subscribe((data: ArticleType[]) => {
         this.articles = data;
       });
+    this.subscriptions.push(articlesSubscription);
 
 
     this.route.fragment.subscribe(fragment => {
@@ -206,6 +210,9 @@ export class MainComponent implements OnInit {
 
 
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
 
 }
