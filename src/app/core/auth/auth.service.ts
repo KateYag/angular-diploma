@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, Subject, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {HttpClient} from "@angular/common/http";
@@ -15,11 +15,13 @@ export class AuthService {
   public refreshTokenKey: string = 'refreshToken';
   public userIdKey: string = 'userId';
 
-  public isLogged$: Subject<boolean> = new Subject<boolean>();
+  public isLogged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private isLogged: boolean = false;
 
   constructor(private http: HttpClient) {
     this.isLogged = !!localStorage.getItem(this.accessTokenKey);
+
+    this.isLogged$.next(this.isLogged);
   }
 
 
